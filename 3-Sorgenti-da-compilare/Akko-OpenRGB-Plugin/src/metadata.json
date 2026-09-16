@@ -1,0 +1,9 @@
+{
+    "IID": "org.openrgb.OpenRGBPluginInterface",
+    "OpenRGBPluginAPIVersion": 5,
+    "Id": "OpenRGB-AkkoKeyboardPlugin",
+    "Name": "Akko Keyboard Editor",
+    "VersionStr": "1.0.0",
+    "Url": "https://github.com/OpenRGB/OpenRGB/wiki/Plugin-SDK",
+    "Commit": "akko-3108-v2"
+}

@@ -1,0 +1,41 @@
+====================================================================
+ 3-Sorgenti-da-compilare/
+====================================================================
+
+Questa cartella contiene TUTTI i sorgenti del plugin (senza la
+cartella build/ e senza file .zip): e' la "build da compilare".
+
+QUANDO SERVE
+------------
+  - chi usa una distro VECCHIA (glibc < 2.35: es. Ubuntu 20.04,
+    Debian 11) -> il .so precompilato non funziona;
+  - chi ha un OpenRGB 1.0 compilato con Qt5;
+  - chi semplicemente non si fida dei binari precompilati.
+
+COME SI COMPILA (Linux, Arch/CachyOS)
+-------------------------------------
+  cd Akko-OpenRGB-Plugin
+  mkdir build && cd build
+  cmake .. -DCMAKE_BUILD_TYPE=Release
+  make -j$(nproc)
+
+  Il risultato e' build/libAkkoKeyboardPlugin.so
+  Installazione: copialo in ~/.config/OpenRGB/plugins/
+
+VARIANTI
+--------
+  - Qt5 (OpenRGB compilato con Qt5):  cmake .. -DOPENRGB_PLUGIN_QT6=OFF
+  - Windows (serve Visual Studio + Qt MSVC): vedi il workflow
+    .github/workflows/release-builds.yml (lo fa la CI).
+
+DIPENDENZE (Linux)
+------------------
+  - qt6-base (o qt5-base)
+  - hidapi  (Arch: pacman -S hidapi)
+  Su Windows niente da installare: hidapi e' incluso in sdk/hidapi/.
+
+ISTRUZIONI COMPLETE
+-------------------
+  Vedi il file README.md dentro Akko-OpenRGB-Plugin/.
+
+====================================================================
