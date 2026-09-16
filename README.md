@@ -2,12 +2,12 @@
 
 [![License: GPL-2.0-or-later](https://img.shields.io/badge/License-GPL--2.0--or--later-blue.svg)](LICENSE)
 
-<img width="1303" height="793" alt="OpenRGB-akko-3108-V2-Akko-Editor" src="https://github.com/user-attachments/assets/594fbb74-0b16-4e17-beee-a3bdd1c5215e" />
-<img width="1303" height="793" alt="OpenRGB-akko-3108-V2-Dispositivi" src="https://github.com/user-attachments/assets/5ba94345-7c44-42b3-8c4e-0a14ed8cd868" />
-
 OpenRGB plugin (Plugin API v5) that adds an **"Akko Editor"** tab with a drawn,
 realistic keyboard for the **Akko 3108 V2** (Keyboard H / H3108 V2, VID
 `0x0C45` PID `0x762B`).
+
+<img width="1303" height="793" alt="OpenRGB-akko-3108-V2-Akko-Editor" src="https://github.com/user-attachments/assets/594fbb74-0b16-4e17-beee-a3bdd1c5215e" />
+<img width="1303" height="793" alt="OpenRGB-akko-3108-V2-Dispositivi" src="https://github.com/user-attachments/assets/5ba94345-7c44-42b3-8c4e-0a14ed8cd868" />
 
 Every key is rendered as a rounded rectangle at its real position and scale.
 Click a key to set its LED color; a click again with the same color turns it
