@@ -1,3 +1,5 @@
+<img width="1303" height="793" alt="OpenRGB-akko-3108-V2-Akko-Editor" src="https://github.com/user-attachments/assets/594fbb74-0b16-4e17-beee-a3bdd1c5215e" />
+<img width="1303" height="793" alt="OpenRGB-akko-3108-V2-Dispositivi" src="https://github.com/user-attachments/assets/5ba94345-7c44-42b3-8c4e-0a14ed8cd868" />
 # Akko-OpenRGB-Plugin
 
 [![License: GPL-2.0-or-later](https://img.shields.io/badge/License-GPL--2.0--or--later-blue.svg)](LICENSE)
