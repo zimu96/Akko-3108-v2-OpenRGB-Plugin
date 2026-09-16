@@ -1,0 +1,5 @@
+/home/zimu96/Scrivania/Reverse Engineering per LED Akko su Linux/Akko-OpenRGB-Plugin/build/CMakeFiles/AkkoKeyboardPlugin.dir
+/home/zimu96/Scrivania/Reverse Engineering per LED Akko su Linux/Akko-OpenRGB-Plugin/build/CMakeFiles/edit_cache.dir
+/home/zimu96/Scrivania/Reverse Engineering per LED Akko su Linux/Akko-OpenRGB-Plugin/build/CMakeFiles/rebuild_cache.dir
+/home/zimu96/Scrivania/Reverse Engineering per LED Akko su Linux/Akko-OpenRGB-Plugin/build/CMakeFiles/AkkoKeyboardPlugin_autogen_timestamp_deps.dir
+/home/zimu96/Scrivania/Reverse Engineering per LED Akko su Linux/Akko-OpenRGB-Plugin/build/CMakeFiles/AkkoKeyboardPlugin_autogen.dir
