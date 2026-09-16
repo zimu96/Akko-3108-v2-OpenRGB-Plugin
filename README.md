@@ -8,6 +8,7 @@ realistic keyboard for the **Akko 3108 V2** (Keyboard H / H3108 V2, VID
 
 <img width="1303" height="793" alt="OpenRGB-akko-3108-V2-Akko-Editor" src="https://github.com/user-attachments/assets/594fbb74-0b16-4e17-beee-a3bdd1c5215e" />
 <img width="1303" height="793" alt="OpenRGB-akko-3108-V2-Dispositivi" src="https://github.com/user-attachments/assets/5ba94345-7c44-42b3-8c4e-0a14ed8cd868" />
+<img width="1303" height="793" alt="OpenRGB-akko-3108-V2-Impostazioni-Plugin" src="https://github.com/user-attachments/assets/184e3d2e-7613-4ea5-92dd-c922d2576987" />
 
 Every key is rendered as a rounded rectangle at its real position and scale.
 Click a key to set its LED color; a click again with the same color turns it
