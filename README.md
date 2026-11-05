@@ -11,6 +11,23 @@ colour, done.
 Works on **OpenRGB 1.0 and 1.1** (both use Plugin API v5) — also on stock
 builds that do not ship any driver for this keyboard.
 
+## ⬇️ Download
+
+**[➡️ Vai all'ultima versione / Go to the latest release](https://github.com/zimu96/Akko-3108-v2-OpenRGB-Plugin/releases/latest)**
+
+In fondo alla pagina, nella sezione **Assets**, scarica **un solo file**: quello del tuo sistema.
+On that page, in the **Assets** section, download **one file only**: the one for your system.
+
+| Il tuo sistema / Your system | File da scaricare / File to download |
+|---|---|
+| 🐧 **Linux** (Arch, CachyOS, Ubuntu, Fedora…) | `Akko-OpenRGB-Plugin-vX.Y.Z-linux-x86_64.zip` |
+| 🪟 **Windows** (beta) | `Akko-OpenRGB-Plugin-vX.Y.Z-windows-x64.zip` |
+
+> Non scaricare *"Source code (zip)"* o *"Source code (tar.gz)"*: li aggiunge GitHub in automatico e servono solo a chi vuole compilare il plugin da sé.
+> Do **not** pick *"Source code"*: GitHub adds it automatically; it is only for building the plugin yourself.
+
+Poi segui [Install](#install-linux-prebuilt) qui sotto. / Then follow [Install](#install-linux-prebuilt) below.
+
 ![Devices page](docs/img/devices.png)
 ![Readable key names in the LED list](docs/img/led-names.png)
 ![Akko Editor](docs/img/akko-editor.png)
