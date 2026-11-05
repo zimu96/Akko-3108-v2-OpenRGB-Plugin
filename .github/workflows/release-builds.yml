@@ -1,0 +1,151 @@
+#============================================================================#
+# Akko-OpenRGB-Plugin - build di rilascio multi-piattaforma                  #
+#                                                                            #
+# Come funziona:                                                             #
+#   - Ogni job compila SUL runner che e' (o contiene) il sistema target:     #
+#       * linux   = ubuntu-22.04 (glibc 2.35) -> .so portabile su tutte      #
+#                   le distro con glibc >= 2.35 (Ubuntu 22.04+, Debian 12+,  #
+#                   Fedora 36+, Arch/CachyOS...)                             #
+#       * windows = windows-2022 + MSVC + Qt6 -> .dll (ABI compatibile con   #
+#                   l'OpenRGB ufficiale Windows)                             #
+#   - Nessun artefatto viene creato sul sistema dello sviluppatore: questo   #
+#     evita i problemi di ABI/glibc dei binari cross-compilati.              #
+#                                                                            #
+# Trigger:                                                                   #
+#   - push di un tag "v*" (es. v1.0.0) -> crea anche la GitHub Release      #
+#     con gli ZIP allegati.                                                  #
+#   - E' possibile generare manualmente gli artefatti dal tab Actions        #
+#     (senza release) selezionando il workflow e "Run workflow".             #
+#============================================================================#
+
+name: Release builds
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  #----------------------------------------------------------------------#
+  # Linux x86_64: .so Qt6, glibc 2.35 (portabile su quasi tutte le distro)#
+  #----------------------------------------------------------------------#
+  linux:
+    name: Linux x86_64 (.so, Qt6)
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Installa dipendenze
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            qt6-base-dev libhidapi-dev
+
+      - name: Configura (Qt6)
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build build -j"$(nproc)"
+
+      - name: Impacchetta
+        run: |
+          mkdir -p dist/Akko-OpenRGB-Plugin-linux-x86_64
+          cp build/libAkkoKeyboardPlugin.so dist/Akko-OpenRGB-Plugin-linux-x86_64/
+          cp packaging/install-linux.sh dist/Akko-OpenRGB-Plugin-linux-x86_64/install.sh
+          cp packaging/INSTALL-LINUX.txt dist/Akko-OpenRGB-Plugin-linux-x86_64/
+          cp LICENSE dist/Akko-OpenRGB-Plugin-linux-x86_64/
+          chmod +x dist/Akko-OpenRGB-Plugin-linux-x86_64/install.sh
+          ls -la dist/Akko-OpenRGB-Plugin-linux-x86_64/
+
+      - name: Upload artefatto
+        uses: actions/upload-artifact@v4
+        with:
+          name: Akko-OpenRGB-Plugin-linux-x86_64
+          path: dist/Akko-OpenRGB-Plugin-linux-x86_64
+          if-no-files-found: error
+
+  #----------------------------------------------------------------------#
+  # Windows x64: .dll MSVC + Qt6 (stessa ABI dell'OpenRGB ufficiale).    #
+  # hidapi e' compilato staticamente dentro il plugin (sdk/hidapi).      #
+  #----------------------------------------------------------------------#
+  windows:
+    name: Windows x64 (.dll, MSVC Qt6)
+    runs-on: windows-2022
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Installa Qt6 (MSVC x64)
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: '6.7.2'
+          arch: 'win64_msvc2019_64'
+          cache: true
+
+      - name: Configura (Visual Studio 2022 + Qt6)
+        run: cmake -S . -B build -G "Visual Studio 17 2022" -A x64
+
+      - name: Build (Release)
+        run: cmake --build build --config Release --parallel
+
+      - name: Impacchetta
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path dist\Akko-OpenRGB-Plugin-windows-x64
+          Copy-Item build\Release\AkkoKeyboardPlugin.dll dist\Akko-OpenRGB-Plugin-windows-x64\
+          Copy-Item packaging\INSTALL-WINDOWS.txt dist\Akko-OpenRGB-Plugin-windows-x64\
+          Copy-Item LICENSE dist\Akko-OpenRGB-Plugin-windows-x64\
+          Get-ChildItem -Recurse dist\Akko-OpenRGB-Plugin-windows-x64
+
+      - name: Upload artefatto
+        uses: actions/upload-artifact@v4
+        with:
+          name: Akko-OpenRGB-Plugin-windows-x64
+          path: dist\Akko-OpenRGB-Plugin-windows-x64
+          if-no-files-found: error
+
+  #----------------------------------------------------------------------#
+  # Pubblica: crea gli ZIP e li allega alla GitHub Release del tag.      #
+  #----------------------------------------------------------------------#
+  release:
+    name: Pubblica GitHub Release
+    needs: [linux, windows]
+    # La Release esce anche se la build Windows (beta) fallisce
+    if: ${{ !cancelled() && needs.linux.result == 'success' }}
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Scarica artefatti
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Crea gli ZIP
+        run: |
+          cd artifacts
+          ls -la
+          for d in */; do
+            n="${d%/}"
+            zip -r "${n}.zip" "$d"
+          done
+          ls -la *.zip
+
+      - name: Crea/aggiorna la Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/*.zip
+          generate_release_notes: true
+          body: |
+            ## v1.1.0
+            - Fixed the key map: Fn, right Ctrl/Win/Alt, Up arrow, numpad bottom rows, Num Enter, Num0 and Num. now light up correctly.
+            - Akko Editor: readable labels on bright keys, better fit in narrow keys, aligned top-right keys.
+            - Readable LED names in the Devices page.
+            - Verified with OpenRGB 1.1 (Plugin API v5, same as 1.0).
+
+            Linux: unzip, `bash install.sh`, enable the plugin in Settings -> Plugins.
+            Windows build is beta (untested on real hardware).
+
+            Made by zimu96 together with Claude (Anthropic) as AI assistant.
