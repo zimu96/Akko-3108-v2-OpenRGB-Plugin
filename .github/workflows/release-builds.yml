@@ -43,7 +43,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
-            qt6-base-dev libhidapi-dev
+            qt6-base-dev libgl1-mesa-dev libxkbcommon-dev libhidapi-dev pkg-config cmake g++ make
 
       - name: Configura (Qt6)
         run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
