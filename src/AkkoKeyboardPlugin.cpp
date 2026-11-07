@@ -218,6 +218,51 @@ void AkkoKeyboardPlugin::RunDetection()
             detection_running.store(false);
         }
 
+        /* FIX avvio: OpenRGB applica il profilo "all'apertura" PRIMA che questa tastiera
+           venga registrata (il rilevamento gira in un thread a parte). Il buffer colori
+           resta quindi nero mentre i tasti mostrano il colore salvato nel firmware, e
+           qualunque plugin che legga/scriva il buffer (es. spegnimento con lo schermo)
+           riscrive il nero. Qui riapplichiamo il profilo di apertura una volta sola. */
+        if((rgb != nullptr) && !stop_requested.load())
+        {
+            QMetaObject::invokeMethod(this, [this, rgb]()
+            {
+                if((api_ptr == nullptr) || (virtual_controller != rgb))
+                {
+                    return;
+                }
+
+                RGBColor*    colors = rgb->GetColorsPointer();
+                unsigned int count  = rgb->GetLEDCount();
+                bool         black  = true;
+
+                for(unsigned int i = 0; (colors != nullptr) && (i < count); i++)
+                {
+                    if(colors[i] != 0) { black = false; break; }
+                }
+
+                if(!black)
+                {
+                    return;
+                }
+
+                nlohmann::json pm = api_ptr->GetSettings("ProfileManager");
+
+                if(pm.is_object() && pm.contains("open_profile") && pm["open_profile"].is_object() &&
+                   pm["open_profile"].value("enabled", false))
+                {
+                    std::string name = pm["open_profile"].value("name", std::string());
+
+                    if(!name.empty())
+                    {
+                        AkkoLog(api_ptr, AKKO_LOG_INFO,
+                                "Colori tastiera vuoti all'avvio: riapplico il profilo '%s'", name.c_str());
+                        api_ptr->LoadProfile(name);
+                    }
+                }
+            }, Qt::QueuedConnection);
+        }
+
         if(!stop_requested.load())
         {
             /* balance hid_init() once the scan is done */
