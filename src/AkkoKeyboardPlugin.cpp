@@ -41,7 +41,7 @@ OpenRGBPluginInfo AkkoKeyboardPlugin::GetPluginInfo()
                                   "Akko 3108 V2 (Keyboard H / H3108 V2, VID 0x0C45 PID 0x762B). "
                                   "Rileva la tastiera via hid_enumerate e la registra in OpenRGB; "
                                   "disegna la tastiera e consente di colorarla per-tasto.";
-    info.Version                = "1.1.0";
+    info.Version                = "1.1.1";
     info.Commit                 = "";
     info.URL                    = "https://github.com/zimu96/Akko-3108-v2-OpenRGB-Plugin";
     info.Icon                   = QImage();

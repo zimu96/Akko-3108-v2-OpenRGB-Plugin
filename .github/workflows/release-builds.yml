@@ -152,6 +152,9 @@ jobs:
             "Source code (zip / tar.gz)" lo aggiunge GitHub in automatico: serve solo se vuoi compilare da te.
             Download only the ZIP for your system from **Assets** below; "Source code" is added by GitHub and is only for building yourself.
 
+            ## v1.1.1
+            - Fixed keyboard colours at startup: the open profile is re-applied after the keyboard is registered (the buffer was black, so plugins that rewrite it left the keys dark).
+
             ## v1.1.0
             - Fixed the key map: Fn, right Ctrl/Win/Alt, Up arrow, numpad bottom rows, Num Enter, Num0 and Num. now light up correctly.
             - Akko Editor: readable labels on bright keys, better fit in narrow keys, aligned top-right keys.

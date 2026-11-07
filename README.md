@@ -71,6 +71,15 @@ try one, please open an issue.
 - **Fully standalone build**: the Plugin SDK headers are vendored in
   [`sdk/`](sdk/); no OpenRGB source tree needed.
 
+### What's new in 1.1.1
+
+- ✅ **Keyboard colours at startup**: OpenRGB loads the "open profile" before the
+  keyboard is registered, so the colour buffer stayed black while the keys showed
+  the colours stored in the firmware. Any plugin that rewrote the buffer (for example
+  one that turns LEDs off with the screen) left the keyboard dark. The plugin now
+  re-applies the configured open profile once, right after registering the keyboard
+  (only if the buffer is all black).
+
 ### What's new in 1.1.0
 
 - ✅ **Fixed the key map**: *Fn*, *right Ctrl*, *right Win*, *right Alt*,

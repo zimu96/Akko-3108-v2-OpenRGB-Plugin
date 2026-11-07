@@ -27,7 +27,7 @@
 cmake_minimum_required(VERSION 3.16)
 
 project(AkkoKeyboardPlugin
-        VERSION 1.1.0
+        VERSION 1.1.1
         DESCRIPTION "OpenRGB plugin - Akko 3108 V2 driver + per-key editor"
         LANGUAGES C CXX)
 
